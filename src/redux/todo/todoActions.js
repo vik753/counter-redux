@@ -1,8 +1,5 @@
-const getId = () => `${Math.random()}-${Date.now()}`;
-
 const addTodo = (todo) => {
-  todo.id = getId();
-  // console.log("todoAddAction", todo);
+  todo.id = `${Math.random()}-${todo.created}`;
   return {
     type: "ADD_TODO",
     todo,

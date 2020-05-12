@@ -18,6 +18,20 @@ class App extends React.Component {
     },
   };
 
+  handleAddNewTodoClick = (e) => {
+    if (!this.state.newTodo.todoText.trim().length) return;
+    const newTodoInput = document.getElementById("addTodo");
+    this.props.addNewTodo(this.state.newTodo);
+    this.setState({
+      newTodo: {
+        todoText: "",
+        done: false,
+        created: Date.now(),
+      },
+    });
+    newTodoInput.value = "";
+  };
+
   render() {
     // console.log(this.props);
     return (
@@ -86,24 +100,17 @@ class App extends React.Component {
                 })
               }
             />
-            <button
-              onClick={() => {
-                const newTodoInput = document.getElementById("addTodo");
-                newTodoInput.value = "";
-                this.props.addNewTodo(this.state.newTodo);
-              }}
-            >
-              Add new note
-            </button>
+            <button onClick={this.handleAddNewTodoClick}>Add new note</button>
           </div>
         </div>
-        <hr />
         <div style={{ textAlign: "left" }}>
-          <ul style={{
-            'list-style': 'none',
-            margin: '0',
-            padding: '0',
-          }}>
+          <ul
+            style={{
+              listStyle: "none",
+              margin: "0",
+              padding: "0",
+            }}
+          >
             {Object.values(this.props.todos).length
               ? Object.values(this.props.todos).map((todo, index) => {
                   return (
@@ -113,9 +120,9 @@ class App extends React.Component {
                         display: "flex",
                         justifyContent: "space-between",
                         border: "1px solid #e2e2e2",
-                        padding: '4px',
-                        borderRadius: '4px',
-                        marginBottom: '4px',
+                        padding: "4px",
+                        borderRadius: "4px",
+                        marginBottom: "4px",
                       }}
                     >
                       <span>{todo.todoText}</span>
