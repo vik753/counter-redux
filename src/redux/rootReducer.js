@@ -1,26 +1,9 @@
-const initialState = {
-  counter: 0,
-};
+import { combineReducers } from "redux";
 
-export default function rootReducer(state = initialState, action) {
-  switch (action.type) {
-    case "ADD":
-      return {
-        counter: state.counter + 1,
-      };
-    case "SUBTRACT":
-      return {
-        counter: state.counter - 1,
-      };
-    case "RESET":
-      return {
-        counter: 0,
-      };
-      case "SET":
-      return {
-        counter: action.value,
-      };
-    default:
-      return state;
-  }
-}
+import counterReducer from "./counter/counterReducer";
+import todoReducer from "./todo/todoReducer";
+
+export default combineReducers({
+  counterReducer,
+  todoReducer,
+});
