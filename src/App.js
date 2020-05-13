@@ -4,6 +4,7 @@ import {
   addCount,
   resetCount,
   setCount,
+  setCountAsync,
   subtractCount,
 } from "./redux/counter/counterActions";
 import { addTodo } from "./redux/todo/todoActions";
@@ -11,6 +12,10 @@ import { addTodo } from "./redux/todo/todoActions";
 class App extends React.Component {
   state = {
     setValue: 0,
+    asyncTimeout: 1000,
+    timer: 0,
+    timerGoing: false,
+    asyncInterval: "",
     newTodo: {
       todoText: "",
       done: false,
@@ -32,8 +37,25 @@ class App extends React.Component {
     newTodoInput.value = "";
   };
 
+  startTimer = () => {
+    this.setState(() => ({ timerGoing: true }));
+    // eslint-disable-next-line no-unused-vars
+    const asyncInterval = setInterval(() => {
+      this.setState(() => ({
+        timer: this.state.timer + 1,
+        asyncInterval: asyncInterval,
+      }));
+    }, 1000);
+  };
+
   render() {
-    // console.log(this.props);
+    if (
+      this.state.timer > this.state.asyncTimeout / 1000 &&
+      this.state.timerGoing
+    ) {
+      clearInterval(this.state.asyncInterval);
+      this.setState(() => ({ timerGoing: false, timer: 0 }));
+    }
     return (
       <div
         style={{
@@ -63,6 +85,7 @@ class App extends React.Component {
               Set value:
             </label>
             <input
+              style={{ maxWidth: "80px" }}
               id="setValue"
               type="number"
               onInput={(e) => this.setState({ setValue: +e.target.value })}
@@ -71,6 +94,36 @@ class App extends React.Component {
             <button onClick={() => this.props.setCount(this.state.setValue)}>
               Set value
             </button>
+          </div>
+          <div style={{ marginTop: "11px" }}>
+            <label htmlFor="setValueAsync" style={{ marginRight: "4px" }}>
+              Set async time "seconds":
+            </label>
+            <input
+              style={{ maxWidth: "80px" }}
+              step="1"
+              id="setValueAsync"
+              type="number"
+              onInput={(e) =>
+                this.setState({ asyncTimeout: +e.target.value * 1000 })
+              }
+              defaultValue={+this.state.asyncTimeout / 1000}
+            />
+            <button
+              onClick={() => {
+                this.startTimer();
+                this.props.setCountAsync(
+                  this.state.setValue,
+                  this.state.asyncTimeout
+                );
+              }}
+            >
+              Set value async
+            </button>
+            <p>
+              <span>Timer: </span>
+              {this.state.timer}
+            </p>
           </div>
         </div>
         {/*  counter-wrapper */}
@@ -149,6 +202,7 @@ const mapDispatchToProps = (dispatch) => ({
   subtractCount: () => dispatch(subtractCount()),
   resetCount: () => dispatch(resetCount()),
   setCount: (value) => dispatch(setCount(value)),
+  setCountAsync: (value, timeout) => dispatch(setCountAsync(value, timeout)),
   //todos
   addNewTodo: (todo) => dispatch(addTodo(todo)),
 });

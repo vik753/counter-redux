@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { createStore, applyMiddleware } from "redux";
+import reduxThunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 import rootReducer from "./redux/rootReducer";
@@ -23,7 +24,7 @@ const store = createStore(reducer, composeWithDevTools(
   applyMiddleware(...middleware),
   // other store enhancers if any
 ));
-* */
+*/
 
 const logger = (store) => (next) => (action) => {
   const result = next(action);
@@ -34,7 +35,7 @@ const logger = (store) => (next) => (action) => {
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(logger))
+  composeWithDevTools(applyMiddleware(logger, reduxThunk))
 );
 
 ReactDOM.render(
