@@ -8,6 +8,7 @@ import {
   subtractCount,
 } from "./redux/counter/counterActions";
 import { addTodo } from "./redux/todo/todoActions";
+import "./css/app.scss";
 
 class App extends React.Component {
   state = {
@@ -43,12 +44,13 @@ class App extends React.Component {
     const asyncInterval = setInterval(() => {
       this.setState(() => ({
         timer: this.state.timer + 1,
-        asyncInterval: asyncInterval,
+        asyncInterval,
       }));
     }, 1000);
   };
 
   render() {
+    //check timer
     if (
       this.state.timer > this.state.asyncTimeout / 1000 &&
       this.state.timerGoing
@@ -68,16 +70,17 @@ class App extends React.Component {
         <div className="counter-wrapper">
           <h1>React-Redux counter</h1>
           <h3>Counter: {this.props.counter}</h3>
-          <button style={{ marginRight: "4px" }} onClick={this.props.addCount}>
+          <button className="btn" style={{ marginRight: "4px" }} onClick={this.props.addCount}>
             Add
           </button>
           <button
+            className="btn"
             style={{ marginRight: "4px" }}
             onClick={this.props.subtractCount}
           >
             Subtract
           </button>
-          <button onClick={this.props.resetCount}>Reset</button>
+          <button className="btn" onClick={this.props.resetCount}>Reset</button>
           <br />
           <br />
           <div>
@@ -91,7 +94,7 @@ class App extends React.Component {
               onInput={(e) => this.setState({ setValue: +e.target.value })}
               defaultValue={this.state.setValue}
             />
-            <button onClick={() => this.props.setCount(this.state.setValue)}>
+            <button className="btn" onClick={() => this.props.setCount(this.state.setValue)}>
               Set value
             </button>
           </div>
@@ -100,7 +103,7 @@ class App extends React.Component {
               Set async time "seconds":
             </label>
             <input
-              style={{ maxWidth: "80px" }}
+              style={{ maxWidth: "40px", marginRight: "4px" }}
               step="1"
               id="setValueAsync"
               type="number"
@@ -110,6 +113,7 @@ class App extends React.Component {
               defaultValue={+this.state.asyncTimeout / 1000}
             />
             <button
+              className="btn"
               onClick={() => {
                 this.startTimer();
                 this.props.setCountAsync(
@@ -117,13 +121,15 @@ class App extends React.Component {
                   this.state.asyncTimeout
                 );
               }}
+              disabled={this.state.timerGoing}
+              style={{}}
             >
-              Set value async
+              {this.state.timerGoing ? (
+                <span>{this.state.asyncTimeout / 1000 - this.state.timer}</span>
+              ) : (
+                <span>Set value async</span>
+              )}
             </button>
-            <p>
-              <span>Timer: </span>
-              {this.state.timer}
-            </p>
           </div>
         </div>
         {/*  counter-wrapper */}
@@ -153,7 +159,7 @@ class App extends React.Component {
                 })
               }
             />
-            <button onClick={this.handleAddNewTodoClick}>Add new note</button>
+            <button className="btn" onClick={this.handleAddNewTodoClick}>Add new note</button>
           </div>
         </div>
         <div style={{ textAlign: "left" }}>
