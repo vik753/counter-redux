@@ -70,7 +70,11 @@ class App extends React.Component {
         <div className="counter-wrapper">
           <h1>React-Redux counter</h1>
           <h3>Counter: {this.props.counter}</h3>
-          <button className="btn" style={{ marginRight: "4px" }} onClick={this.props.addCount}>
+          <button
+            className="btn"
+            style={{ marginRight: "4px" }}
+            onClick={this.props.addCount}
+          >
             Add
           </button>
           <button
@@ -80,7 +84,9 @@ class App extends React.Component {
           >
             Subtract
           </button>
-          <button className="btn" onClick={this.props.resetCount}>Reset</button>
+          <button className="btn" onClick={this.props.resetCount}>
+            Reset
+          </button>
           <br />
           <br />
           <div>
@@ -94,7 +100,10 @@ class App extends React.Component {
               onInput={(e) => this.setState({ setValue: +e.target.value })}
               defaultValue={this.state.setValue}
             />
-            <button className="btn" onClick={() => this.props.setCount(this.state.setValue)}>
+            <button
+              className="btn"
+              onClick={() => this.props.setCount(this.state.setValue)}
+            >
               Set value
             </button>
           </div>
@@ -159,7 +168,9 @@ class App extends React.Component {
                 })
               }
             />
-            <button className="btn" onClick={this.handleAddNewTodoClick}>Add new note</button>
+            <button className="btn" onClick={this.handleAddNewTodoClick}>
+              Add new note
+            </button>
           </div>
         </div>
         <div style={{ textAlign: "left" }}>
